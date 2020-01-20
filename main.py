@@ -43,6 +43,7 @@ def enter_center():
 def add_center():
     global all_center
     name = input("podaj nazwe osrodka: ")
+    name = name.strip(" ")
     speed = float(input("podaj predkosc fali w osrodku: "))
     if not name in all_center.keys():
         all_center[name] = speed
@@ -79,7 +80,7 @@ def detector_speed():
 
     # jesli dane sa dobre to obliczenie predkosci oraz wypisanie wyniku
     if is_good:
-        v0 = (center*f)/f1-center
+        v0 = (center*f1)/f-center
         print(v0)
 
 
@@ -98,9 +99,8 @@ def how_far(center=None, t=None, print_it=True):
         else:
             return dis
 
-
+# robienie wiele pomiarow
 def multi_calc():
-    print(all_center)
     how_many = int(input("podaj ilosc pomiarow: "))
     wave = float(input("podaj okres fali: "))
     distance_arr = []
@@ -125,7 +125,7 @@ def multi_calc():
 # wykres fali
 def wave_mt():
     x = np.arange(0, 3, 0.01)
-    y = np.sin(2*np.pi*2*x)
+    y = np.sin(4*np.pi*x)
     plt.plot(x, y)
     plt.show()
 
@@ -136,6 +136,11 @@ while is_run:
     # wypisanie wszytkich komend
     print(all_commend)
     command = input("co mam robić: ")
+    try:
+        command = int(command)
+        command = all_commend[command]
+    except:
+        pass
 
     if command in all_commend:
         if command == 'exit':
@@ -157,5 +162,4 @@ while is_run:
             multi_calc()
 
         if command == 'fala':
-            print("test")
             wave_mt()

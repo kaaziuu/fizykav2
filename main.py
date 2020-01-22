@@ -2,6 +2,7 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 is_run = True
 
@@ -9,6 +10,7 @@ all_commend = [
     'predkosc detektora',
     'odleglosc pr',
     'wiele pomiarow',
+    'kierunek',
     'fala',
     'dodaj osr',
     'usun osr',
@@ -129,7 +131,14 @@ def wave_mt():
     plt.plot(x, y)
     plt.show()
 
-
+def direction():
+    center, ok = enter_center()
+    site = input("podaj stronę która najpierw usłyszała dzwięk l/p: ")
+    DT = float(input("Podaj różnice w czasie: "))
+    dis = float(input("podaj odleglosc miedzy lewym a prawym detektorem: "))
+    sina = (DT*center)/dis
+    degrees = np.degrees(sina)
+    print(degrees)
 
 # główna pętla
 while is_run:
@@ -163,3 +172,6 @@ while is_run:
 
         if command == 'fala':
             wave_mt()
+
+        if command == 'kierunek':
+            direction()

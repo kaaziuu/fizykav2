@@ -2,8 +2,6 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import math
-
 is_run = True
 
 all_commend = [
@@ -11,6 +9,7 @@ all_commend = [
     'odleglosc pr',
     'wiele pomiarow',
     'kierunek',
+    'wielkosc',
     'fala',
     'dodaj osr',
     'usun osr',
@@ -67,7 +66,7 @@ def remove_center():
             f.write(json_tab)
 
 
-# obliczanie predkosci detektora
+# obliczanie predkosci detektora/sluchacza
 def detector_speed():
     # podanie osrodka
     center, is_good = enter_center()
@@ -133,12 +132,20 @@ def wave_mt():
 
 def direction():
     center, ok = enter_center()
-    site = input("podaj stronę która najpierw usłyszała dzwięk l/p: ")
     DT = float(input("Podaj różnice w czasie: "))
     dis = float(input("podaj odleglosc miedzy lewym a prawym detektorem: "))
+    # obliczenie sin
     sina = (DT*center)/dis
+    # zamiana sinus na kąt
     degrees = np.degrees(sina)
     print(degrees)
+
+def size():
+    p0 = float(input("podaj natężenie początkową: "))
+    pe = float(input("podaj netężenie jakie wróciło: "))
+    r = float(input("podaj odlegosc: "))
+    s = (pe*4*np.pi*r**2)/p0
+    print(s)
 
 # główna pętla
 while is_run:
@@ -175,3 +182,5 @@ while is_run:
 
         if command == 'kierunek':
             direction()
+        if command == 'wielkosc':
+            size()

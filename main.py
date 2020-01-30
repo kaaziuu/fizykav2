@@ -45,7 +45,7 @@ def add_center():
     global all_center
     name = input("podaj nazwe osrodka: ")
     name = name.strip(" ")
-    speed = float(input("podaj predkosc fali w osrodku: "))
+    speed = float(input("podaj predkosc fali w osrodku (m/s): "))
     if not name in all_center.keys():
         all_center[name] = speed
 
@@ -73,8 +73,8 @@ def detector_speed():
 
     #podanie czestotliwosci
     try:
-        f = float(input("Podaj czestotliwosc emisji: "))
-        f1 = float(input("podaj czestotliwosc zwrotną: "))
+        f = float(input("Podaj czestotliwosc emisji (hz): "))
+        f1 = float(input("podaj czestotliwosc zwrotną (hz): "))
     except:
         print('blad w podawaniu danych')
         is_good = False
@@ -82,7 +82,7 @@ def detector_speed():
     # jesli dane sa dobre to obliczenie predkosci oraz wypisanie wyniku
     if is_good:
         v0 = (center*f1)/f-center
-        print(v0)
+        print(f"{v0} m/s")
 
 
 # oblicza odlegosc w prostym przypadku
@@ -91,19 +91,19 @@ def how_far(center=None, t=None, print_it=True):
     if not center:
         center, is_good = enter_center()
     if not t:
-        t = float(input("czas powrodu fali: "))
+        t = float(input("czas powrodu fali (s): "))
 
     if is_good:
         dis = center * (t/2)
         if print_it:
-            print(dis)
+            print(f'{dis} m')
         else:
             return dis
 
 # robienie wiele pomiarow
 def multi_calc():
     how_many = int(input("podaj ilosc pomiarow: "))
-    wave = float(input("podaj okres fali: "))
+    wave = float(input("podaj okres fali (s): "))
     distance_arr = []
     speed_arr = []
     center, good = enter_center()
@@ -111,7 +111,7 @@ def multi_calc():
     current_time = None
     for i in range(how_many):
         old_time = current_time
-        current_time = float(input("podaj czas powrotu fali: "))
+        current_time = float(input("podaj czas powrotu fali (s): "))
         distance_arr.append(how_far(center, current_time, False))
         if old_time:
             rt = -old_time/2 + wave + current_time/2
@@ -120,7 +120,7 @@ def multi_calc():
         else:
             speed_arr.append(None)
 
-    data = pd.DataFrame({"odleglosc": distance_arr, 'predkosc': speed_arr})
+    data = pd.DataFrame({"odleglosc (m)": distance_arr, 'predkosc (m/s)': speed_arr})
     print(data)
 
 # wykres fali
@@ -132,8 +132,8 @@ def wave_mt():
 
 def direction():
     center, ok = enter_center()
-    DT = float(input("Podaj różnice w czasie: "))
-    dis = float(input("podaj odleglosc miedzy lewym a prawym detektorem: "))
+    DT = float(input("Podaj różnice w czasie (s): "))
+    dis = float(input("podaj odleglosc miedzy lewym a prawym detektorem (m): "))
     # obliczenie sin
     sina = (DT*center)/dis
     # zamiana sinus na kąt
@@ -141,11 +141,11 @@ def direction():
     print(degrees)
 
 def size():
-    p0 = float(input("podaj natężenie początkową: "))
-    pe = float(input("podaj netężenie jakie wróciło: "))
-    r = float(input("podaj odlegosc: "))
-    s = (pe*4*np.pi*r**2)/p0
-    print(s)
+    p0 = float(input("podaj moc początkową (w): "))
+    i = float(input("podaj natężenie które, wróciło do emitera (w/m^2): "))
+    r = float(input("podaj odlegosc (m): "))
+    s = (i*16*np.pi**2)*r**4/p0
+    print(f"{s} m^2")
 
 # główna pętla
 while is_run:

@@ -118,7 +118,7 @@ def multi_calc():
             speed = (distance_arr[i-1] - distance_arr[i]) / rt
             speed_arr.append(speed)
         else:
-            speed_arr.append(None)
+            speed_arr.append(" ")
 
     data = pd.DataFrame({"odleglosc (m)": distance_arr, 'predkosc (m/s)': speed_arr})
     print(data)
@@ -136,9 +136,10 @@ def direction():
     dis = float(input("podaj odleglosc miedzy lewym a prawym detektorem (m): "))
     # obliczenie sin
     sina = (DT*center)/dis
-    # zamiana sinus na kąt
-    degrees = np.degrees(sina)
-    print(degrees)
+    # print(sina)
+    a = np.arcsin(sina)
+    a = np.rad2deg(a)
+    print(f"{a}\N{DEGREE SIGN}")
 
 def size():
     p0 = float(input("podaj moc początkową (w): "))
